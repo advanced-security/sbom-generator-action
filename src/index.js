@@ -31,7 +31,7 @@ async function buildSBOM(dependencyGraph) {
       "created": new Date(Date.now()).toISOString()
     },
     "packages": []
-  }
+  };
 
   dependencyGraph?.repository?.dependencyGraphManifests?.nodes?.forEach(function (manifest){
     manifest?.dependencies?.nodes?.forEach(function(dependency) {
