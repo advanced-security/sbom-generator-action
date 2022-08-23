@@ -20,7 +20,42 @@ async function run() {
     core.setFailed(error.message);
   }
 
-  getDependencyGraph()
+  buildSBOM(await getDependencyGraph());
+}
+
+async function buildSBOM(dependencyGraph) {
+  let spdx = { 
+    "spdxVersion": "SPDX-2.3",
+    "SPDXID": "SPDXRef-DOCUMENT",
+    "creationInfo": {
+      "created": new Date(Date.now()).toISOString()
+    },
+    "packages": []
+  }
+
+  dependencyGraph?.repository?.dependencyGraphManifests?.nodes?.forEach(function (manifest){
+    manifest?.dependencies?.nodes?.forEach(function(dependency) {
+        let package = {
+          "packageName" : dependency.packageName,
+          "packageVersion": getPackageVersion(dependency.requirements),
+          "purl": getPurl(dependency),
+          "filesAnalyzed": "false"
+        }
+        spdx.packages.push(package);
+    })
+  });
+
+  console.log(JSON.stringify(spdx));
+}
+
+function getPurl(dependency) {
+  let version = getPackageVersion(dependency.requirements);
+  return `pkg:${dependency.packageManager}/${dependency.packageName}@${version}`;
+}
+
+function getPackageVersion(version) {
+  // requirements strings are formatted like '= 1.1.0'
+  return version.match('= (.*)')[1];
 }
 
 async function getDependencyGraph() {
@@ -47,7 +82,8 @@ async function getDependencyGraph() {
       previews: ["hawkgirl"],
     }
   });
-  console.log(dependencyGraph);
+
+  return dependencyGraph;
 }
 
 run();
