@@ -4,8 +4,8 @@ const { randomUUID } = require('crypto');
 const fs = require('fs');
 const wait = require('./wait');
 require('dotenv').config();
-const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN});
 
+const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN});
 
 // most @actions toolkit packages have async methods
 async function run() {

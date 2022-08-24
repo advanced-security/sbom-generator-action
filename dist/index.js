@@ -8224,8 +8224,8 @@ const { randomUUID } = __nccwpck_require__(6417);
 const fs = __nccwpck_require__(5747);
 const wait = __nccwpck_require__(1312);
 __nccwpck_require__(2437).config();
-const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN});
 
+const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN});
 
 // most @actions toolkit packages have async methods
 async function run() {
