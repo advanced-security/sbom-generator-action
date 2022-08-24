@@ -8292,7 +8292,7 @@ function getPackageVersion(version) {
   try {
     return version.match('=|\^ (.*)')[1];
   } catch (err ) {
-    return version; //TODO, handle this better
+    return version; //TODO, handle other cases better
   }
 
 }
