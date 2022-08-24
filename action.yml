@@ -1,5 +1,5 @@
 name: 'SBOM-generator'
-description: 'Generates an SBOM from your repository's dependency graph'
+description: 'Generates an SBOM from your repository dependency graph'
 inputs:
 outputs:
   fileName: # output will be available to future steps
