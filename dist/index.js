@@ -8286,7 +8286,7 @@ function getPackageVersion(version) {
   try {
     return version.match('= (.*)')[1];
   } catch (err ) {
-    return version;
+    return version; //TODO, handle this better
   }
 
 }
