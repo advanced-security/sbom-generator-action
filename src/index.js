@@ -14,21 +14,22 @@ const octokit = new Octokit({ auth: token});
 // most @actions toolkit packages have async methods
 async function run() {
   let sbom = await buildSBOM(await getDependencyGraph());
-  let fileName = await writeFile(sbom, "spdx");
+  let fileName = await writeFile(sbom, createFileName("spdx"));
   core.setOutput("fileName", fileName);
 }
 
+function createFileName(name) {
+  return `${process.env.GITHUB_WORKSPACE}/${name}-${randomUUID()}.json`;
+}
+
 // Writes the given contents to a file and returns the file name. 
-async function writeFile(contents, name) {
-  const filePath = `${process.env.GITHUB_WORKSPACE}/${name}-${randomUUID()}.json`
+async function writeFile(contents, filePath) {
   //open a file called filePath and write contents to it
   fs.writeFile(filePath, contents, function (err) {
     if (err) {
       return console.log(err);
     }
     core.info("Wrote file to " + filePath);
-  }).then(() => {
-    return filePath;
   });
 }
 
