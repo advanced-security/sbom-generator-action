@@ -8290,7 +8290,7 @@ function getPurl(dependency) {
 function getPackageVersion(version) {
   // requirements strings are formatted like '= 1.1.0'
   try {
-    return version.match('= (.*)')[1];
+    return version.match('=|\^ (.*)')[1];
   } catch (err ) {
     return version; //TODO, handle this better
   }
