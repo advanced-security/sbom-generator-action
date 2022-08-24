@@ -63,7 +63,12 @@ function getPurl(dependency) {
 // Returns the package version for the given requirements.
 function getPackageVersion(version) {
   // requirements strings are formatted like '= 1.1.0'
-  return version.match('= (.*)')[1];
+  try {
+    return version.match('= (.*)')[1];
+  } catch (err ) {
+    return version;
+  }
+
 }
 
 // Returns the dependency graph for the repository.
