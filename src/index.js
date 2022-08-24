@@ -20,16 +20,16 @@ async function run() {
 
 // Writes the given contents to a file and returns the file name. 
 async function writeFile(contents, name) {
-  let filePath = `${process.env.GITHUB_WORKSPACE}/${name}-${randomUUID()}.json`
+  const filePath = `${process.env.GITHUB_WORKSPACE}/${name}-${randomUUID()}.json`
   //open a file called filePath and write contents to it
-  fs.writeFile(filePath, contents, function(err) {
-    if(err) {
+  fs.writeFile(filePath, contents, function (err) {
+    if (err) {
       return console.log(err);
     }
     core.info("Wrote file to " + filePath);
+  }).then(() => {
+    return filePath;
   });
-
-  return filePath;
 }
 
 // Builds a SPDX license file from the given dependency graph.
