@@ -5,7 +5,7 @@ This repository uses GitHub's dependency graph to automatically build an SBOM in
 ## Usage
 ### GitHub Actions
 
-You can add this Action to a GitHub Actions workflow by adding the following YAML to a workflow file. 
+You can add this Action to a GitHub Actions workflow by adding the following YAML to a workflow file. This publishes the SBOM as an artifact in the Actions workflow run. 
 
 ```yaml
 name: SBOM Generator
