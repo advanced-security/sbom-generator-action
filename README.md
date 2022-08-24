@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: jhutchings1/sbom-generator@main
+      - uses: jhutchings1/sbom-generator@v1.0.0
         id: sbom
         env: 
           GITHUB_TOKEN: ${{ github.token }}
