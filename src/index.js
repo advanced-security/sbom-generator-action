@@ -5,7 +5,11 @@ const fs = require('fs');
 const wait = require('./wait');
 require('dotenv').config();
 
-const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN});
+// For local usage without GitHub Actions, we can accept the token and repository nwo from the command line.
+const token = process.env.GITHUB_TOKEN ? process.env.GITHUB_TOKEN : process.argv[2];
+const repository = process.env.GITHUB_REPOSITORY ? process.env.GITHUB_REPOSITORY : process.argv[3];
+
+const octokit = new Octokit({ auth: token});
 
 // most @actions toolkit packages have async methods
 async function run() {
@@ -91,8 +95,8 @@ async function getDependencyGraph() {
     }
   }`, 
   {
-    owner: process.env.GITHUB_REPOSITORY.split('/')[0],
-    name: process.env.GITHUB_REPOSITORY.split('/')[1], 
+    owner: repository.split('/')[0],
+    name: repository.split('/')[1], 
     mediaType: {
       previews: ["hawkgirl"],
     }
