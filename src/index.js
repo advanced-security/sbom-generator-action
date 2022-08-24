@@ -2,7 +2,6 @@ const core = require('@actions/core');
 const { Octokit } = require('@octokit/core');
 const { randomUUID } = require('crypto');
 const fs = require('fs');
-const wait = require('./wait');
 require('dotenv').config();
 
 // For local usage without GitHub Actions, we can accept the token and repository nwo from the command line.

@@ -8024,23 +8024,6 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 1312:
-/***/ ((module) => {
-
-let wait = function (milliseconds) {
-  return new Promise((resolve) => {
-    if (typeof milliseconds !== 'number') {
-      throw new Error('milliseconds not a number');
-    }
-    setTimeout(() => resolve("done!"), milliseconds)
-  });
-};
-
-module.exports = wait;
-
-
-/***/ }),
-
 /***/ 2877:
 /***/ ((module) => {
 
@@ -8222,7 +8205,6 @@ const core = __nccwpck_require__(2186);
 const { Octokit } = __nccwpck_require__(6762);
 const { randomUUID } = __nccwpck_require__(6417);
 const fs = __nccwpck_require__(5747);
-const wait = __nccwpck_require__(1312);
 __nccwpck_require__(2437).config();
 
 // For local usage without GitHub Actions, we can accept the token and repository nwo from the command line.
