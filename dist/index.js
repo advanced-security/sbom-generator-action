@@ -8225,27 +8225,33 @@ const fs = __nccwpck_require__(5747);
 const wait = __nccwpck_require__(1312);
 __nccwpck_require__(2437).config();
 
-const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN});
+// For local usage without GitHub Actions, we can accept the token and repository nwo from the command line.
+const token = process.env.GITHUB_TOKEN ? process.env.GITHUB_TOKEN : process.argv[2];
+const repository = process.env.GITHUB_REPOSITORY ? process.env.GITHUB_REPOSITORY : process.argv[3];
+
+const octokit = new Octokit({ auth: token});
 
 // most @actions toolkit packages have async methods
 async function run() {
   let sbom = await buildSBOM(await getDependencyGraph());
-  let fileName = writeFile(sbom, "spdx");
+  const fileName = createFileName('spdx');
+  await writeFile(sbom, fileName);
   core.setOutput("fileName", fileName);
 }
 
+function createFileName(name) {
+  return `${process.env.GITHUB_WORKSPACE}/${name}-${randomUUID()}.json`;
+}
+
 // Writes the given contents to a file and returns the file name. 
-async function writeFile(contents, name) {
-  let filePath = `${process.env.GITHUB_WORKSPACE}/${name}-${randomUUID()}.json`
+async function writeFile(contents, filePath) {
   //open a file called filePath and write contents to it
-  fs.writeFile(filePath, contents, function(err) {
-    if(err) {
+  fs.writeFile(filePath, contents, function (err) {
+    if (err) {
       return console.log(err);
     }
     core.info("Wrote file to " + filePath);
   });
-
-  return filePath;
 }
 
 // Builds a SPDX license file from the given dependency graph.
@@ -8311,8 +8317,8 @@ async function getDependencyGraph() {
     }
   }`, 
   {
-    owner: process.env.GITHUB_REPOSITORY.split('/')[0],
-    name: process.env.GITHUB_REPOSITORY.split('/')[1], 
+    owner: repository.split('/')[0],
+    name: repository.split('/')[1], 
     mediaType: {
       previews: ["hawkgirl"],
     }
