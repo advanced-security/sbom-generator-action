@@ -38,7 +38,8 @@ jobs:
 ### As a CLI
 
 1. Clone this repository to your local machine. 
-2. Run `node . "githubtoken" "owner/name"` where githubtoken is a legacy GitHub token with repository read permission and owner/name matches a GitHub repository. Alternatively, this script will automatically populate those values from the `GITHUB_TOKEN` and `GITHUB_REPOSITORY` environment variables. 
+2. Change to that directory and run `npm install -g .`  to install this CLI locally
+2. Run `sbom-generator "githubtoken" "owner/name"` where githubtoken is a legacy GitHub token with repository read permission and owner/name matches a GitHub repository. Alternatively, this script will automatically populate those values from the `GITHUB_TOKEN` and `GITHUB_REPOSITORY` environment variables. 
 
 ## License
 This repository is licensed under the MIT License. 
