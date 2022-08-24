@@ -14,7 +14,8 @@ const octokit = new Octokit({ auth: token});
 // most @actions toolkit packages have async methods
 async function run() {
   let sbom = await buildSBOM(await getDependencyGraph());
-  let fileName = await writeFile(sbom, createFileName("spdx"));
+  let fileName = createFileName('spdx');
+  await writeFile(sbom, fileName);
   core.setOutput("fileName", fileName);
 }
 
