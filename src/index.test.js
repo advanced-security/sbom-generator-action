@@ -4,23 +4,30 @@ const path = require('path');
 const { default: Ajv } = require('ajv');
 const fs = require('fs');
 const ajv = new Ajv();
+const glob = require('glob');
+const index = require('./index');
 
 // shows how the runner will run a javascript action with env / stdout protocol
-test('test runs and validates', async () => {
+test('Test runs and validates', async () => {
   process.env['INPUT_MILLISECONDS'] = 100;
   const ip = path.join(__dirname, 'index.js');
   const result = cp.execSync(`node ${ip}`, {env: process.env}).toString();
   console.log(result);
-  
+
+  // Get a file matching ".spdx.json" and validate it against the SPDX 2.3 schema.
+  var output = null;
+  glob.sync("*.spdx.json").forEach(function(file) {
+    output = JSON.parse(fs.readFileSync(file));
+  });
+
   var spdxSchema = {};
   console.log(__dirname);
-  await fs.readFile(path.resolve(__dirname, './schemas/spdx2.3.json'), (err, data) => {
-    if (err) {
-      console.log(`Error reading file from disk: ${err}`);
-    } else {
-      spdxSchema = JSON.parse(data);
-    }
-  });
-  const validate = ajv.compile(spdxSchema);
-  expect(validate(result)).toEqual(true);
+  spdxSchema = JSON.parse(fs.readFileSync(path.resolve(__dirname, './schemas/spdx2.3.json')));
+
+  
+  const validationResult = ajv.validate(spdxSchema, output);
+  if (!validationResult) {
+    console.log(ajv.errors);
+  }
+  expect(validationResult).toEqual(true);
 })

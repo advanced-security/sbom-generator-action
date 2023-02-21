@@ -8215,14 +8215,16 @@ const octokit = new Octokit({ auth: token});
 
 // most @actions toolkit packages have async methods
 async function run() {
-  let sbom = await buildSBOM(await getDependencyGraph());
   const fileName = createFileName('spdx');
+  let sbom = await buildSBOM(await getDependencyGraph(), fileName);
+  
   await writeFile(sbom, fileName);
   core.setOutput("fileName", fileName);
 }
 
 function createFileName(name) {
-  return `${process.env.GITHUB_WORKSPACE}/${name}-${randomUUID()}.json`;
+  const directory = process.env.GITHUB_WORKSPACE ?? ".";
+  return `${directory}/${name}-${randomUUID()}.spdx.json`;
 }
 
 // Writes the given contents to a file and returns the file name. 
@@ -8237,29 +8239,42 @@ async function writeFile(contents, filePath) {
 }
 
 // Builds a SPDX license file from the given dependency graph.
-async function buildSBOM(dependencyGraph) {
+async function buildSBOM(dependencyGraph, fileName) {
   core.debug("Building SPDX file");
   let spdx = { 
     "spdxVersion": "SPDX-2.3",
     "SPDXID": "SPDXRef-DOCUMENT",
-    "documentName": process.env.GITHUB_REPOSITORY,
+    "dataLicense": "CC0-1.0",
+    "name": fileName,
     "creationInfo": {
-      "created": new Date(Date.now()).toISOString()
+      "created": new Date(Date.now()).toISOString(),
+      "creators": [
+        "Tool: github.com/advanced-security/sbom-generator-action"
+      ]
     },
     "packages": []
   };
 
   dependencyGraph?.repository?.dependencyGraphManifests?.nodes?.forEach(function (manifest){
     manifest?.dependencies?.nodes?.forEach(function(dependency) {
-        let package = {
-          "packageName" : dependency.packageName,
-          "packageVersion": getPackageVersion(dependency.requirements),
-          "purl": getPurl(dependency),
+        let pkg = {
+          "SPDXID": "SPDXRef-" + dependency.packageName.replace(/[^a-zA-Z0-9]/g, "_").toUpperCase(),
+          "name" : dependency.packageName,
+          "versionInfo": getPackageVersion(dependency.requirements),
           "filesAnalyzed": "false", 
-          "packageDownloadLocation": "NOASSERTION",
-          "FilesAnalyzed": false
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION",
+          "filesAnalyzed": false,
+          "externalRefs"  : [
+            {
+              "referenceCategory": "PACKAGE-MANAGER",
+              "referenceLocator": getPurl(dependency),
+              "referenceType": "purl",
+            },
+          ]
         }
-        spdx.packages.push(package);
+        spdx.packages.push(pkg);
     })
   });
 
@@ -8274,12 +8289,12 @@ function getPurl(dependency) {
 // Returns the package version for the given requirements.
 function getPackageVersion(version) {
   // requirements strings are formatted like '= 1.1.0'
+  
   try {
-    return version.match('=|\^ (.*)')[1];
+    return version.match('= (.*)')[1];
   } catch (err ) {
     return version; //TODO, handle other cases better
   }
-
 }
 
 // Returns the dependency graph for the repository.
