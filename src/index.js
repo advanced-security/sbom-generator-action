@@ -39,6 +39,7 @@ async function buildSBOM(dependencyGraph) {
   let spdx = { 
     "spdxVersion": "SPDX-2.3",
     "SPDXID": "SPDXRef-DOCUMENT",
+    "documentName": process.env.GITHUB_REPOSITORY,
     "creationInfo": {
       "created": new Date(Date.now()).toISOString()
     },
@@ -51,7 +52,9 @@ async function buildSBOM(dependencyGraph) {
           "packageName" : dependency.packageName,
           "packageVersion": getPackageVersion(dependency.requirements),
           "purl": getPurl(dependency),
-          "filesAnalyzed": "false"
+          "filesAnalyzed": "false", 
+          "packageDownloadLocation": "NOASSERTION",
+          "FilesAnalyzed": false
         }
         spdx.packages.push(package);
     })
