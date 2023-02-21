@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: jhutchings1/sbom-generator@v1.0.0
+      - uses: advanced-security/sbom-generator-action@v0.0.1
         id: sbom
         env: 
           GITHUB_TOKEN: ${{ github.token }}
@@ -41,5 +41,5 @@ jobs:
 2. Change to that directory and run `npm install -g .`  to install this CLI locally
 2. Run `sbom-generator "githubtoken" "owner/name"` where githubtoken is a legacy GitHub token with repository read permission and owner/name matches a GitHub repository. Alternatively, this script will automatically populate those values from the `GITHUB_TOKEN` and `GITHUB_REPOSITORY` environment variables. 
 
-## License
-This repository is licensed under the MIT License. 
+# License
+This project is licensed under the terms of the MIT open source license. Please refer to [MIT](LICENSE.md) for the full terms.
