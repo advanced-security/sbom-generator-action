@@ -5,6 +5,8 @@ on:
     branches:
       - main
       - 'releases/*'
+      
+permissions: read-all
 
 jobs:
   # unit tests
