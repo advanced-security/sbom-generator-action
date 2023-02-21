@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/javascript-action.git"
+    "url": "git+https://github.com/advanced-security/sbom-generator-action.git"
   },
   "keywords": [
     "GitHub",
@@ -20,9 +20,9 @@
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/actions/javascript-action/issues"
+    "url": "https://github.com/advanced-security/sbom-generator-action/issues"
   },
-  "homepage": "https://github.com/actions/javascript-action#readme",
+  "homepage": "https://github.com/advanced-security/sbom-generator-action#readme",
   "dependencies": {
     "@actions/core": "^1.2.5",
     "@octokit/core": "^4.0.5",

@@ -1,4 +1,4 @@
-name: 'SBOM-generator'
+name: 'SBOM-generator-action'
 description: 'Generates an SBOM from your repository dependency graph'
 outputs:
   fileName: # output will be available to future steps
