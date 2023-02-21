@@ -1,10 +1,11 @@
-name: "units-test"
+name: "Tests"
 on:
   pull_request:
   push:
     branches:
       - main
       - 'releases/*'
+  workflow_dispatch:
       
 permissions: read-all
 
