@@ -15,6 +15,9 @@ jobs:
     - uses: actions/checkout@v3
     - run: npm ci
     - run: npm test
+      env: 
+        GITHUB_TOKEN: ${{ github.token }}
+
 
   # test action works running from the graph
   test:
