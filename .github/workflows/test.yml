@@ -1,4 +1,4 @@
-name: "units-test"
+name: "Tests"
 on:
   pull_request:
   push:
@@ -6,6 +6,8 @@ on:
       - main
       - 'releases/*'
   workflow_dispatch:
+
+permissions: read-all
 
 jobs:
   # unit tests
