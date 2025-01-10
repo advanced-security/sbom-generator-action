@@ -7,8 +7,9 @@ require('dotenv').config();
 // For local usage without GitHub Actions, we can accept the token and repository nwo from the command line.
 const token = process.env.GITHUB_TOKEN ? process.env.GITHUB_TOKEN : process.argv[2];
 const repository = process.env.GITHUB_REPOSITORY ? process.env.GITHUB_REPOSITORY : process.argv[3];
+const baseUrl = process.env.GITHUB_API_URL ? process.env.GITHUB_API_URL : "https://api.github.com";
 
-const octokit = new Octokit({ auth: token});
+const octokit = new Octokit({ auth: token, baseUrl: baseUrl});
 
 // most @actions toolkit packages have async methods
 async function run() {
