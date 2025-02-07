@@ -1,5 +1,11 @@
 # SBOM Generator
 
+## Deprecated: please use the REST API
+
+The [REST API for Dependency Graph to generate an SPDX SBOM](https://docs.github.com/en/rest/dependency-graph/sboms?apiVersion=2022-11-28#export-a-software-bill-of-materials-sbom-for-a-repository) is much easier to use and has had many improvements over time, so it should be used instead of this action.
+
+## Old content follows
+
 This repository uses GitHub's dependency graph to automatically build an SBOM in SPDX 2.3 format. It supports the same [ecosystems](https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/about-the-dependency-graph) as the dependency graph. If you need support for a different set of formats, we recommend having a look at the [Microsoft SBOM Tool](https://github.com/microsoft/sbom-tool), or Anchore's [Syft](https://github.com/anchore/syft). 
 
 ## Usage
